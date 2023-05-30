@@ -1,65 +1,40 @@
 #pragma once
 #include "MyForm.h";
 #include <Windows.h>
-#include <iostream>
-
-
+//#include <iostream>
+#include <thread>
 
 using namespace System::Drawing;
 using namespace System::Windows::Forms;
 
-
-System::Windows::Forms::Screen;
+//System::Windows::Forms::Screen;
 
 namespace scv {
+	int screen_width = 0;
+	int screen_height = 0;
 
-	void screen_Bitmap() {
+	/*void mythread_function(Graphics^ gfxScreenshot, int screen_width, int screen_height) {
+		gfxScreenshot->CopyFromScreen(0, 0, 0, 0, System::Drawing::Size(screen_width, screen_height));
+	}*/
 
-		int screen_width = GetSystemMetrics(SM_CXSCREEN); // User32.lib - билиотека зависимостей
-		int screen_height = GetSystemMetrics(SM_CYSCREEN);
+	void screen_Bitmap(Label^ label, PictureBox^ pictureBox1, Timer^ timer, Graphics^ gfxScreenshot, Bitmap^ screenshot) {
 
-		// Создаем Bitmap для хранения скриншота
-		//Bitmap^ screenshot = gcnew Bitmap(screen_width, screen_height);
-
-		// Создаем объект Graphics для рисования на Bitmap
-		//Graphics^ gfxScreenshot = Graphics::FromImage(screenshot);
+		screen_width = GetSystemMetrics(SM_CXSCREEN); // User32.lib - билиотека зависимостей
+		screen_height = GetSystemMetrics(SM_CYSCREEN);
+		label->Text = "Ширина: " + System::Convert::ToString(screen_width) + "\n" + "Высота: " + System::Convert::ToString(screen_height);
 
 		// Сделать скриншот экрана и сохранить его в Bitmap
-		//gfxScreenshot->CopyFromScreen(screenRect.Left, screenRect.Top, 0, 0, screenRect.Size);
-
-		// Освободить ресурсы
-		//delete gfxScreenshot;
-		 
-		 
-		 
-		 
-		 
-		//// Получаем размеры экрана
-		//Rectangle screenRect = Screen::PrimaryScreen->Bounds;
-
-		//// Создаем Bitmap для хранения скриншота
-		//Bitmap^ screenshot = gcnew Bitmap(screenRect.Width, screenRect.Height);
-
-		//// Создаем объект Graphics для рисования на Bitmap
-		//Graphics^ gfxScreenshot = Graphics::FromImage(screenshot);
-
-		//// Сделать скриншот экрана и сохранить его в Bitmap
-		//gfxScreenshot->CopyFromScreen(screenRect.Left, screenRect.Top, 0, 0, screenRect.Size);
-
-		//// Освободить ресурсы
-		//delete gfxScreenshot;
-
-		//// Получаем данные изображения в виде массива байтов
-		//System::IO::MemoryStream^ ms = gcnew System::IO::MemoryStream();
-		//screenshot->Save(ms, System::Drawing::Imaging::ImageFormat::Bmp);
-		//array<System::Byte>^ imageData = ms->ToArray();
-
-		//// Освобождаем ресурсы
-		//delete screenshot;
-		//delete ms;
-
-		// Делаем что-то с данными изображения
-
+		gfxScreenshot->CopyFromScreen(0, 0, 0, 0, System::Drawing::Size(screen_width, screen_height));
+		
+		/*std::thread my_thread(mythread_function, gfxScreenshot, screen_width, screen_height);
+		my_thread.join();*/
+		
+		pictureBox1->Image = screenshot;
+		pictureBox1->SizeMode = PictureBoxSizeMode::Zoom;
+		
 	}
 
 }
+
+
+

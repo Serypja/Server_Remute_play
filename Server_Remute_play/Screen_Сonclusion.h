@@ -31,6 +31,8 @@ namespace scv {
 		
 		pictureBox1->Image = screenshot;
 		pictureBox1->SizeMode = PictureBoxSizeMode::Zoom;
+
+
 		
 	}
 

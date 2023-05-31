@@ -130,6 +130,7 @@
       <FileType>CppForm</FileType>
     </ClInclude>
     <ClInclude Include="Screen_Сonclusion.h" />
+    <ClInclude Include="Server_UDP.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MyForm.resx">

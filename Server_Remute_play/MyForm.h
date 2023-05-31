@@ -1,7 +1,13 @@
 #pragma once
+#include"Server_UDP.h"
 #include "Screen_Сonclusion.h"
 #include <Windows.h>
 #include <iostream>
+
+using namespace System::Net;
+using namespace System::Net::Sockets;
+using namespace System::Drawing;
+using namespace System::IO;
 
 namespace ServerRemuteplay {
 
@@ -43,6 +49,7 @@ namespace ServerRemuteplay {
 	private: System::Windows::Forms::Label^ label1;
 	private: System::Windows::Forms::Timer^ timer1;
 	private: System::Windows::Forms::Label^ label2;
+	private: System::Windows::Forms::Button^ button2;
 	private: System::ComponentModel::IContainer^ components;
 
 	private:
@@ -64,6 +71,7 @@ namespace ServerRemuteplay {
 			this->label1 = (gcnew System::Windows::Forms::Label());
 			this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
 			this->label2 = (gcnew System::Windows::Forms::Label());
+			this->button2 = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -113,11 +121,22 @@ namespace ServerRemuteplay {
 			this->label2->TabIndex = 3;
 			this->label2->Text = L"FPS";
 			// 
+			// button2
+			// 
+			this->button2->Location = System::Drawing::Point(12, 92);
+			this->button2->Name = L"button2";
+			this->button2->Size = System::Drawing::Size(75, 23);
+			this->button2->TabIndex = 4;
+			this->button2->Text = L"button2";
+			this->button2->UseVisualStyleBackColor = true;
+			this->button2->Click += gcnew System::EventHandler(this, &MyForm::button2_Click);
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1035, 509);
+			this->Controls->Add(this->button2);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->button1);
@@ -138,10 +157,12 @@ namespace ServerRemuteplay {
 		DateTime lastTime;
 		TimeSpan elapset;
 		int fps = 0;
+		int screen_width = 0;
+		int screen_height = 0;
 
 		void Bitmap_create() {
-			int screen_width = GetSystemMetrics(SM_CXSCREEN); // User32.lib - билиотека зависимостей
-			int screen_height = GetSystemMetrics(SM_CYSCREEN);
+			screen_width = GetSystemMetrics(SM_CXSCREEN); // User32.lib - билиотека зависимостей
+			screen_height = GetSystemMetrics(SM_CYSCREEN);
 			screenshot = gcnew Bitmap(screen_width, screen_height);
 			gfxScreenshot = Graphics::FromImage(screenshot);
 		}
@@ -169,6 +190,31 @@ namespace ServerRemuteplay {
 		void lol() {
 			// Освободить ресурсы
 			delete gfxScreenshot;
+		}
+
+		private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
+			String^ ipAddressString = "192.168.0.190";
+			IPAddress^ ipAddress = IPAddress::Parse(ipAddressString);
+			int port = 3322;
+
+			UdpClient^ udpServer = gcnew UdpClient(port);
+			IPEndPoint^ remoteEP = gcnew IPEndPoint(ipAddress, port); // Автоматический поиск ip и порта IPEndPoint(IPAddress::Any, 0)
+
+			// Создаем Bitmap
+			Bitmap_create();
+			gfxScreenshot->CopyFromScreen(0, 0, 0, 0, System::Drawing::Size(this->screen_width, this->screen_height));
+			MemoryStream^ stream = gcnew MemoryStream();
+			screenshot->Save(stream, System::Drawing::Imaging::ImageFormat::Bmp);
+			array<Byte>^ bitmapBytes = stream->ToArray();
+
+			int bufferSize = bitmapBytes->Length; // размер буфера в байтах
+			udpServer->Client->SetSocketOption(SocketOptionLevel::Socket, SocketOptionName::SendBuffer, bufferSize);
+
+
+			// Отправляем массив байт клиенту
+			udpServer->Send(bitmapBytes, bitmapBytes->Length, remoteEP);
+
+			
 		}
 };
 }

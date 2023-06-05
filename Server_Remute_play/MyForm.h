@@ -3,11 +3,18 @@
 #include "Screen_Сonclusion.h"
 #include <Windows.h>
 #include <iostream>
+//#include <winsock2.h>
+#using <System.dll>
+
+//_______________________________________________
+
+//_______________________________________________
 
 using namespace System::Net;
 using namespace System::Net::Sockets;
 using namespace System::Drawing;
 using namespace System::IO;
+using namespace System::Text;
 
 namespace ServerRemuteplay {
 
@@ -50,6 +57,7 @@ namespace ServerRemuteplay {
 	private: System::Windows::Forms::Timer^ timer1;
 	private: System::Windows::Forms::Label^ label2;
 	private: System::Windows::Forms::Button^ button2;
+	private: System::Windows::Forms::Label^ label3;
 	private: System::ComponentModel::IContainer^ components;
 
 	private:
@@ -72,6 +80,7 @@ namespace ServerRemuteplay {
 			this->timer1 = (gcnew System::Windows::Forms::Timer(this->components));
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->button2 = (gcnew System::Windows::Forms::Button());
+			this->label3 = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -131,11 +140,23 @@ namespace ServerRemuteplay {
 			this->button2->UseVisualStyleBackColor = true;
 			this->button2->Click += gcnew System::EventHandler(this, &MyForm::button2_Click);
 			// 
+			// label3
+			// 
+			this->label3->AutoSize = true;
+			this->label3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(204)));
+			this->label3->Location = System::Drawing::Point(12, 312);
+			this->label3->Name = L"label3";
+			this->label3->Size = System::Drawing::Size(60, 24);
+			this->label3->TabIndex = 5;
+			this->label3->Text = L"label3";
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1035, 509);
+			this->Controls->Add(this->label3);
 			this->Controls->Add(this->button2);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->label1);
@@ -193,9 +214,52 @@ namespace ServerRemuteplay {
 		}
 
 		private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
-			
 
-			
+			UdpClient^ client = gcnew UdpClient();
+			IPAddress^ serverAddress = IPAddress::Parse("192.168.0.149");
+			IPEndPoint^ endPoint = gcnew IPEndPoint(serverAddress, 8884);
+			int maxPacketSize = 65507; // максимальный размер пакета UDP
+
+			array<Byte>^ pngData = System::IO::File::ReadAllBytes("image1.png");
+			int offset = 0;
+			int count = 0;
+
+			while (offset < pngData->Length)
+			{
+				int packetSize = Math::Min(maxPacketSize, pngData->Length - offset);
+				array<Byte>^ packetData = gcnew array<Byte>(packetSize);
+				Array::Copy(pngData, offset, packetData, 0, packetSize);
+				client->Send(packetData, packetSize, endPoint);
+				offset += packetSize;
+				count++;
+			}
+			label3->Text = "Размер картинки: " + Convert::ToString(pngData->Length);
+
+			client->Close();
+
+
 		}
-};
+
+			   
+	};
 }
+
+
+//_________________________________________________________________________Передача картинки до 64 МБ
+//// Открываем файл PNG
+//array<Byte>^ pngData = System::IO::File::ReadAllBytes("image.png");
+
+//// Создаем UDP клиента
+//UdpClient^ client = gcnew UdpClient();
+
+//// Получаем IP-адрес и порт сервера
+//IPAddress^ serverAddress = IPAddress::Parse("192.168.0.149");
+//IPEndPoint^ endPoint = gcnew IPEndPoint(serverAddress, 8884);
+
+//
+
+//// Отправляем данные на сервер
+//client->Send(pngData, pngData->Length, endPoint);
+
+//// Закрываем клиента
+//client->Close();

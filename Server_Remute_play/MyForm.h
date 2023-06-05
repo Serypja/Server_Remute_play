@@ -193,26 +193,7 @@ namespace ServerRemuteplay {
 		}
 
 		private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
-			String^ ipAddressString = "192.168.0.190";
-			IPAddress^ ipAddress = IPAddress::Parse(ipAddressString);
-			int port = 3322;
-
-			UdpClient^ udpServer = gcnew UdpClient(port);
-			IPEndPoint^ remoteEP = gcnew IPEndPoint(ipAddress, port); // Автоматический поиск ip и порта IPEndPoint(IPAddress::Any, 0)
-
-			// Создаем Bitmap
-			Bitmap_create();
-			gfxScreenshot->CopyFromScreen(0, 0, 0, 0, System::Drawing::Size(this->screen_width, this->screen_height));
-			MemoryStream^ stream = gcnew MemoryStream();
-			screenshot->Save(stream, System::Drawing::Imaging::ImageFormat::Bmp);
-			array<Byte>^ bitmapBytes = stream->ToArray();
-
-			int bufferSize = bitmapBytes->Length; // размер буфера в байтах
-			udpServer->Client->SetSocketOption(SocketOptionLevel::Socket, SocketOptionName::SendBuffer, bufferSize);
-
-
-			// Отправляем массив байт клиенту
-			udpServer->Send(bitmapBytes, bitmapBytes->Length, remoteEP);
+			
 
 			
 		}

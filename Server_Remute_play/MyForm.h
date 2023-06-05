@@ -220,7 +220,7 @@ namespace ServerRemuteplay {
 			IPEndPoint^ endPoint = gcnew IPEndPoint(serverAddress, 8884);
 			int maxPacketSize = 65507; // максимальный размер пакета UDP
 
-			array<Byte>^ pngData = System::IO::File::ReadAllBytes("image1.png");
+			array<Byte>^ pngData = System::IO::File::ReadAllBytes("image.png");
 			int offset = 0;
 			int count = 0;
 
@@ -233,7 +233,7 @@ namespace ServerRemuteplay {
 				offset += packetSize;
 				count++;
 			}
-			label3->Text = "Размер картинки: " + Convert::ToString(pngData->Length);
+			label3->Text = "Размер картинки: " + Convert::ToString(count);
 
 			client->Close();
 

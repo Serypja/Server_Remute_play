@@ -239,6 +239,7 @@ namespace ServerRemuteplay {
 			delete gfxScreenshot;
 		}
 
+		// Передача по протоколу UDP
 		private: System::Void button2_Click(System::Object^ sender, System::EventArgs^ e) {
 
 			UdpClient^ client = gcnew UdpClient();
@@ -266,13 +267,34 @@ namespace ServerRemuteplay {
 
 		}
 
-			   
+			// Передача по протоколу TCP   
 		private: System::Void button3_Click(System::Object^ sender, System::EventArgs^ e) {
 
+			
+			// Создаем TCP-клиента
+			TcpClient^ client = gcnew TcpClient("172.20.10.2", 8888);
 
+			// Получаем сетевой поток для отправки данных
+			NetworkStream^ stream = client->GetStream();
+
+			// Загружаем PNG-изображение из файла в байтовый массив
+			array<Byte>^ imageBytes = File::ReadAllBytes("img.png");
+
+			// Отправляем размер изображения
+			int imageSize = imageBytes->Length;
+			array<Byte>^ sizeBytes = BitConverter::GetBytes(imageSize);
+			stream->Write(sizeBytes, 0, sizeBytes->Length);
+
+			// Отправляем данные изображения
+			stream->Write(imageBytes, 0, imageSize);
+
+			// Закрываем соединение
+			stream->Close();
+			client->Close();
 
 		}
 
+			   // Передача по протоколу FASP
 		private: System::Void button4_Click(System::Object^ sender, System::EventArgs^ e) {
 
 

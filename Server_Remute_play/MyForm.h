@@ -58,6 +58,7 @@ namespace ServerRemuteplay {
 	private: System::Windows::Forms::Label^ label2;
 	private: System::Windows::Forms::Button^ button2;
 	private: System::Windows::Forms::Label^ label3;
+	private: System::Windows::Forms::Button^ button3;
 	private: System::ComponentModel::IContainer^ components;
 
 	private:
@@ -81,6 +82,7 @@ namespace ServerRemuteplay {
 			this->label2 = (gcnew System::Windows::Forms::Label());
 			this->button2 = (gcnew System::Windows::Forms::Button());
 			this->label3 = (gcnew System::Windows::Forms::Label());
+			this->button3 = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -109,7 +111,7 @@ namespace ServerRemuteplay {
 			this->label1->AutoSize = true;
 			this->label1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 24, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->label1->Location = System::Drawing::Point(12, 410);
+			this->label1->Location = System::Drawing::Point(9, 391);
 			this->label1->Name = L"label1";
 			this->label1->Size = System::Drawing::Size(100, 37);
 			this->label1->TabIndex = 2;
@@ -124,7 +126,7 @@ namespace ServerRemuteplay {
 			this->label2->AutoSize = true;
 			this->label2->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->label2->Location = System::Drawing::Point(15, 365);
+			this->label2->Location = System::Drawing::Point(12, 355);
 			this->label2->Name = L"label2";
 			this->label2->Size = System::Drawing::Size(46, 24);
 			this->label2->TabIndex = 3;
@@ -132,11 +134,11 @@ namespace ServerRemuteplay {
 			// 
 			// button2
 			// 
-			this->button2->Location = System::Drawing::Point(12, 92);
+			this->button2->Location = System::Drawing::Point(12, 93);
 			this->button2->Name = L"button2";
-			this->button2->Size = System::Drawing::Size(75, 23);
+			this->button2->Size = System::Drawing::Size(123, 23);
 			this->button2->TabIndex = 4;
-			this->button2->Text = L"button2";
+			this->button2->Text = L"Картинка по UDP";
 			this->button2->UseVisualStyleBackColor = true;
 			this->button2->Click += gcnew System::EventHandler(this, &MyForm::button2_Click);
 			// 
@@ -145,17 +147,28 @@ namespace ServerRemuteplay {
 			this->label3->AutoSize = true;
 			this->label3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 14, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(204)));
-			this->label3->Location = System::Drawing::Point(12, 312);
+			this->label3->Location = System::Drawing::Point(12, 319);
 			this->label3->Name = L"label3";
 			this->label3->Size = System::Drawing::Size(60, 24);
 			this->label3->TabIndex = 5;
 			this->label3->Text = L"label3";
+			// 
+			// button3
+			// 
+			this->button3->Location = System::Drawing::Point(12, 134);
+			this->button3->Name = L"button3";
+			this->button3->Size = System::Drawing::Size(123, 23);
+			this->button3->TabIndex = 6;
+			this->button3->Text = L"Картинка по TCP";
+			this->button3->UseVisualStyleBackColor = true;
+			this->button3->Click += gcnew System::EventHandler(this, &MyForm::button3_Click);
 			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1035, 509);
+			this->Controls->Add(this->button3);
 			this->Controls->Add(this->label3);
 			this->Controls->Add(this->button2);
 			this->Controls->Add(this->label2);
@@ -241,7 +254,12 @@ namespace ServerRemuteplay {
 		}
 
 			   
-	};
+	private: System::Void button3_Click(System::Object^ sender, System::EventArgs^ e) {
+
+
+
+	}
+};
 }
 
 

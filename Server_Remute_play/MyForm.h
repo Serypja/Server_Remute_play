@@ -59,6 +59,7 @@ namespace ServerRemuteplay {
 	private: System::Windows::Forms::Button^ button2;
 	private: System::Windows::Forms::Label^ label3;
 	private: System::Windows::Forms::Button^ button3;
+	private: System::Windows::Forms::Button^ button4;
 	private: System::ComponentModel::IContainer^ components;
 
 	private:
@@ -83,6 +84,7 @@ namespace ServerRemuteplay {
 			this->button2 = (gcnew System::Windows::Forms::Button());
 			this->label3 = (gcnew System::Windows::Forms::Label());
 			this->button3 = (gcnew System::Windows::Forms::Button());
+			this->button4 = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -163,11 +165,22 @@ namespace ServerRemuteplay {
 			this->button3->UseVisualStyleBackColor = true;
 			this->button3->Click += gcnew System::EventHandler(this, &MyForm::button3_Click);
 			// 
+			// button4
+			// 
+			this->button4->Location = System::Drawing::Point(12, 177);
+			this->button4->Name = L"button4";
+			this->button4->Size = System::Drawing::Size(123, 23);
+			this->button4->TabIndex = 7;
+			this->button4->Text = L"Картинка по FASP";
+			this->button4->UseVisualStyleBackColor = true;
+			this->button4->Click += gcnew System::EventHandler(this, &MyForm::button4_Click);
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1035, 509);
+			this->Controls->Add(this->button4);
 			this->Controls->Add(this->button3);
 			this->Controls->Add(this->label3);
 			this->Controls->Add(this->button2);
@@ -254,11 +267,17 @@ namespace ServerRemuteplay {
 		}
 
 			   
-	private: System::Void button3_Click(System::Object^ sender, System::EventArgs^ e) {
+		private: System::Void button3_Click(System::Object^ sender, System::EventArgs^ e) {
 
 
 
-	}
+		}
+
+		private: System::Void button4_Click(System::Object^ sender, System::EventArgs^ e) {
+
+
+
+		}
 };
 }
 
